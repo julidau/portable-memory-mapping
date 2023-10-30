@@ -6,7 +6,7 @@
 
 #pragma once
 
-#ifdef _WIN32 || __CYGWIN__
+#if defined(_WIN32) || defined(__CYGWIN__)
 #define MMAP_WINDOWS
 #endif
 

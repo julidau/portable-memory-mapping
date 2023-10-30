@@ -18,6 +18,7 @@ typedef unsigned __int64 uint64_t;
 #endif
 
 #include <string>
+#include <string_view>
 
 /// Portable read-only memory mapping (Windows and Linux)
 /** Filesize limited by size_t, usually 2^32 or 2^64 */
@@ -71,6 +72,8 @@ class MemoryMapped {
   /// replace mapping by a new one of the same file, offset MUST be a multiple
   /// of the page size
   bool remap(uint64_t offset, size_t mappedBytes);
+
+  std::string_view slice(size_t offset, size_t len);
 
  private:
   /// don't copy object

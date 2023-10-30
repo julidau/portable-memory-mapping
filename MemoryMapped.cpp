@@ -307,3 +307,7 @@ int MemoryMapped::getpagesize() {
   return sysconf(_SC_PAGESIZE);  //::getpagesize();
 #endif
 }
+
+std::string_view MemoryMapped::slice(size_t offset, size_t len) {
+  return std::string_view{(const char*)(_mappedView) + offset, len};
+}

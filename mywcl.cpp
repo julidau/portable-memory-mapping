@@ -5,22 +5,20 @@
 
 // g++ MemoryMapped.cpp mywcl.cpp -o mywcl -O3 -fopenmp
 
-#include "MemoryMapped.h"
 #include <cstdio>
+#include "MemoryMapped.h"
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
   // syntax check
-  if (argc > 2)
-  {
+  if (argc > 2) {
     printf("Syntax: ./mywcl filename\n");
     return -1;
   }
 
   // map file to memory
-  MemoryMapped data(argv[1], MemoryMapped::WholeFile, MemoryMapped::SequentialScan);
-  if (!data.isValid())
-  {
+  MemoryMapped data(argv[1], MemoryMapped::WholeFile,
+                    MemoryMapped::SequentialScan);
+  if (!data.isValid()) {
     printf("File not found\n");
     return -2;
   }
@@ -31,15 +29,15 @@ int main(int argc, char* argv[])
   uint64_t numLines = 0;
 
   // OpenMP spreads work across CPU cores
-#pragma omp parallel for reduction(+:numLines)
+#pragma omp parallel for reduction(+ : numLines)
   for (uint64_t i = 0; i < data.size(); i++)
     numLines += (buffer[i] == '\n');
 
-  // show result
-#ifdef _MSC_VER
+    // show result
+#ifdef MMAP_WINDOWS
   printf("%I64d\n", numLines);
 #else
-  printf("%lld\n",  numLines);
+  printf("%lld\n", numLines);
 #endif
   return 0;
 }

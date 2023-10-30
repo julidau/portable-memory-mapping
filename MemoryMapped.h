@@ -73,7 +73,8 @@ class MemoryMapped {
   /// of the page size
   bool remap(uint64_t offset, size_t mappedBytes);
 
-  std::string_view slice(size_t offset, size_t len);
+  // returns a subslice of the file as a string_view
+  std::string_view slice(size_t offset, size_t len) const;
 
  private:
   /// don't copy object
